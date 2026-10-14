@@ -1,0 +1,61 @@
+{
+  "api": {
+    "exercised": 1,
+    "operations": 14,
+    "requests_by_status_class": {
+      "2xx": 6
+    },
+    "uncovered": [
+      "GET /api/ready",
+      "GET /api/trades",
+      "POST /api/trades",
+      "GET /api/trades/{trade_id}",
+      "PATCH /api/trades/{trade_id}",
+      "DELETE /api/trades/{trade_id}",
+      "GET /api/notes",
+      "POST /api/notes",
+      "GET /api/notes/{note_id}",
+      "PATCH /api/notes/{note_id}",
+      "DELETE /api/notes/{note_id}",
+      "GET /api/tags",
+      "GET /api/calendar/month"
+    ]
+  },
+  "backend": "native",
+  "database": {
+    "commits": 0,
+    "rollbacks": 0,
+    "server_restarts_survived": 0,
+    "statements": 0,
+    "write_requests_committed": 0,
+    "writes": 0
+  },
+  "gates": {
+    "e2e-tests": true,
+    "lf-endings": true,
+    "log-sources": true,
+    "no-secret-leaks": true,
+    "no-unexpected-errors": true,
+    "playwright-pin": true,
+    "repo-hygiene": true,
+    "screenshots": true,
+    "unit-tests": true
+  },
+  "journal_events": {},
+  "log_records": {
+    "client": 3,
+    "server": 19,
+    "test": 12
+  },
+  "phase": 0,
+  "result": "pass",
+  "tests": {
+    "by_marker": {
+      "p0": 4
+    },
+    "failed": 0,
+    "passed": 4,
+    "skipped": 0
+  },
+  "unit_tests": "344 passed"
+}

@@ -1,0 +1,118 @@
+{
+  "api": {
+    "exercised": 17,
+    "operations": 17,
+    "requests_by_status_class": {
+      "2xx": 1309,
+      "3xx": 1,
+      "4xx": 59
+    },
+    "uncovered": []
+  },
+  "backend": "native",
+  "database": {
+    "commits": 1218,
+    "rollbacks": 0,
+    "server_restarts_survived": 1,
+    "statements": 4335,
+    "write_requests_committed": 973,
+    "writes": 2384
+  },
+  "feeds": {
+    "hosts": [
+      "127.0.0.1"
+    ],
+    "syncs": {
+      "forexfactory": {
+        "bad_content": 4,
+        "error": 11,
+        "ok": 9,
+        "throttled": 4,
+        "unchanged": 38
+      },
+      "gcal": {
+        "bad_content": 4,
+        "error": 4,
+        "ok": 7,
+        "throttled": 1,
+        "unchanged": 38
+      }
+    },
+    "triggers": {
+      "manual": 118,
+      "startup": 2
+    }
+  },
+  "frontend": {
+    "api_contract": "in sync",
+    "native_bundles": [
+      "android",
+      "ios"
+    ],
+    "typecheck": "pass",
+    "unit_tests": "66 passed",
+    "web_build": "pass"
+  },
+  "gates": {
+    "api-contract": true,
+    "api-coverage": true,
+    "db-transactions": true,
+    "e2e-tests": true,
+    "feed-paths": true,
+    "feeds-offline": true,
+    "frontend-deps": true,
+    "frontend-rules": true,
+    "frontend-typecheck": true,
+    "frontend-unit-tests": true,
+    "lf-endings": true,
+    "log-sources": true,
+    "native-bundles": true,
+    "net-correlation": true,
+    "no-secret-leaks": true,
+    "no-unexpected-errors": true,
+    "playwright-pin": true,
+    "repo-hygiene": true,
+    "screenshots": true,
+    "secret-registered": true,
+    "ui-coverage": true,
+    "unit-tests": true,
+    "web-build": true
+  },
+  "journal_events": {
+    "note_created": 38,
+    "note_deleted": 37,
+    "note_updated": 4,
+    "trade_created": 388,
+    "trade_deleted": 386,
+    "trade_updated": 13
+  },
+  "log_records": {
+    "client": 268,
+    "server": 3602,
+    "test": 1701
+  },
+  "phase": 3,
+  "result": "pass",
+  "tests": {
+    "by_marker": {
+      "p0": 3,
+      "p1": 63,
+      "p2": 77,
+      "p3": 103
+    },
+    "failed": 0,
+    "passed": 246,
+    "skipped": 0
+  },
+  "ui": {
+    "exercised": 17,
+    "operations": 17,
+    "uncovered": [],
+    "write_requests": {
+      "DELETE": 3,
+      "PATCH": 6,
+      "POST": 22
+    }
+  },
+  "unit_tests": "344 passed"
+}

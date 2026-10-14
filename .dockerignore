@@ -1,0 +1,20 @@
+# The deny-list for any build from the repository root that has no Dockerfile-specific ignore file
+# (docker/app.Dockerfile.dockerignore and e2e/Dockerfile.dockerignore are stricter allow-lists).
+.git
+.venv
+.cc-history
+.env
+.env.*
+!.env.example
+node_modules
+**/node_modules
+**/dist
+**/.expo
+**/__pycache__
+**/*.pyc
+logs
+artifacts
+data
+*.db
+*.db-wal
+*.db-shm

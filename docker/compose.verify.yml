@@ -1,0 +1,99 @@
+# What scripts/verify.py --backend compose layers on top of docker-compose.yml. It changes the app's settings (never its
+# image), adds the stand-in for both feed hosts, and adds the test runner:
+#
+#     docker compose -p tj-verify-phase4 -f docker-compose.yml -f docker/compose.verify.yml up -d --wait app
+#     docker compose -p tj-verify-phase4 -f docker-compose.yml -f docker/compose.verify.yml run --rm e2e python -m pytest ...
+#
+# The harness supplies the ${VARIABLES}, from the same constants the native backend uses, so the two backends are
+# configured identically. A missing required one stops compose with its name, never with an empty value.
+services:
+  app:
+    image: tradingjournal/app:${TJ_IMAGE_TAG:?the harness names the image it verifies}
+    environment:
+      APP_ENV: test
+      APP_TIMEZONE: ${APP_TIMEZONE:?the harness supplies the zone the calendar tests assume}
+      # `fixture` talks to loopback and to the stub's own name, and to nothing else: the app refuses to start otherwise.
+      # Below Phase 3 the feeds are off.
+      FEEDS_MODE: ${FEEDS_MODE:?the harness says whether the feeds run}
+      FEEDS_FIXTURE_HOSTS: feedstub
+      FF_FEED_URL: ${FF_FEED_URL:-http://feedstub:8765/ff/thisweek.xml}
+      GCAL_ICAL_URL: ${GCAL_ICAL_URL:-}
+      APP_NOW_OVERRIDE: ${APP_NOW_OVERRIDE:-}
+      SYNC_COOLDOWN_SECONDS: ${SYNC_COOLDOWN_SECONDS:-300}
+      FF_POLL_MINUTES: ${FF_POLL_MINUTES:-60}
+      GCAL_POLL_MINUTES: ${GCAL_POLL_MINUTES:-30}
+      FEED_TICK_SECONDS: ${FEED_TICK_SECONDS:-5}
+      FEED_TIMEOUT_SECONDS: ${FEED_TIMEOUT_SECONDS:-15}
+    depends_on:
+      feedstub:
+        condition: service_healthy
+        required: false # only when the `feeds` profile is on, which the harness does from Phase 3
+
+  # Both feed hosts, from the static files in fixtures/ (e2e/support/feed_stub.py). Reachable from the app container
+  # only: it publishes nothing.
+  feedstub:
+    profiles: [feeds]
+    image: tradingjournal/e2e:${TJ_IMAGE_TAG:?the harness names the image it verifies}
+    init: true
+    working_dir: /work/e2e
+    command:
+      - python
+      - support/feed_stub.py
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8765"
+      - --fixtures
+      - /work/fixtures
+      - --log
+      - /logs/feed-stub.jsonl
+      - --gcal-token
+      - ${GCAL_TOKEN:-private-0123456789abcdef0123456789abcdef}
+    volumes:
+      - type: bind
+        source: ${RUN_DIR:?the harness supplies the folder of this run's logs}
+        target: /logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://127.0.0.1:8765/__state', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+  # The suite, with a real Chromium. It reaches the app from inside the app's network namespace, and writes its logs and screenshots through two bind mounts.
+  e2e:
+    profiles: [verify]
+    image: tradingjournal/e2e:${TJ_IMAGE_TAG:?the harness names the image it verifies}
+    build:
+      context: .
+      dockerfile: e2e/Dockerfile
+    # The browser shares the app container's network namespace, so it reaches the app at http://127.0.0.1:8000, the origin a
+    # person uses. Browsers treat loopback as a trustworthy origin (secure-context features, headers such as COOP) and any
+    # other host name as not; Chromium even upgrades the bare name `app`, a Google-owned TLD, to HTTPS. The app's own traffic
+    # to the feed stub still crosses the compose network.
+    network_mode: service:app
+    init: true
+    ipc: host # Chromium's shared memory; the image's own guidance
+    working_dir: /work/e2e
+    environment:
+      BASE_URL: http://127.0.0.1:8000
+      VERIFY_PHASE: ${VERIFY_PHASE:?the harness supplies the phase being verified}
+      E2E_LOG_FILE: /logs/e2e.jsonl
+      ARTIFACTS_DIR: /artifacts
+      E2E_NO_SANDBOX: "1"
+      FEED_STUB_URL: http://feedstub:8765
+      FEEDS_NOW: ${FEEDS_NOW:-} # where the feeds clock started, whatever the second server was told
+      FEED_COOLDOWN: ${SYNC_COOLDOWN_SECONDS:-300}
+      GCAL_ICAL_URL: ${GCAL_ICAL_URL:-}
+    volumes:
+      - type: bind
+        source: ${RUN_DIR:?the harness supplies the folder of this run's logs}
+        target: /logs
+      - type: bind
+        source: ${ARTIFACTS_DIR:?the harness supplies the artifacts folder}
+        target: /artifacts
+    depends_on:
+      app:
+        condition: service_healthy
+      feedstub:
+        condition: service_healthy
+        required: false

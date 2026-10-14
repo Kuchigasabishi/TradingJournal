@@ -1,0 +1,4 @@
+-c requirements.txt
+-r requirements.in
+pytest~=9.1
+httpx2~=2.13

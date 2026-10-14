@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+BEGIN:VEVENT
+UID:one@fixture.example
+SUMMARY:No start
+END:VEVENT
+BEGIN:VEVENT
+UID:two@fixture.example
+SUMMARY:Also no start
+END:VEVENT
+BEGIN:VEVENT
+UID:three@fixture.example
+SUMMARY:Still no start
+END:VEVENT
+END:VCALENDAR

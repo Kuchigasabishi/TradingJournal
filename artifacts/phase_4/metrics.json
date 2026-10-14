@@ -1,0 +1,138 @@
+{
+  "api": {
+    "exercised": 17,
+    "operations": 17,
+    "requests_by_status_class": {
+      "2xx": 1363,
+      "3xx": 1,
+      "4xx": 64
+    },
+    "uncovered": []
+  },
+  "backend": "compose",
+  "container": {
+    "capabilities": "none",
+    "containers_checked": 4,
+    "hardened": true,
+    "healthy": true,
+    "journal_mode": "wal",
+    "non_root": true,
+    "published_on": [
+      "127.0.0.1"
+    ],
+    "read_only_root": true,
+    "volume_persists": true
+  },
+  "database": {
+    "commits": 1219,
+    "rollbacks": 0,
+    "server_restarts_survived": 1,
+    "statements": 4337,
+    "write_requests_committed": 974,
+    "writes": 2385
+  },
+  "feeds": {
+    "hosts": [
+      "feedstub"
+    ],
+    "syncs": {
+      "forexfactory": {
+        "bad_content": 4,
+        "error": 11,
+        "ok": 9,
+        "throttled": 4,
+        "unchanged": 38
+      },
+      "gcal": {
+        "bad_content": 4,
+        "error": 4,
+        "ok": 7,
+        "throttled": 1,
+        "unchanged": 38
+      }
+    },
+    "triggers": {
+      "manual": 118,
+      "startup": 2
+    }
+  },
+  "frontend": {
+    "api_contract": "in sync",
+    "native_bundles": [
+      "android",
+      "ios"
+    ],
+    "typecheck": "pass",
+    "unit_tests": "66 passed",
+    "web_build": "pass"
+  },
+  "gates": {
+    "api-contract": true,
+    "api-coverage": true,
+    "container-hardening": true,
+    "container-health": true,
+    "db-transactions": true,
+    "docker-hygiene": true,
+    "e2e-tests": true,
+    "feed-paths": true,
+    "feeds-offline": true,
+    "frontend-deps": true,
+    "frontend-rules": true,
+    "frontend-typecheck": true,
+    "frontend-unit-tests": true,
+    "image-contents": true,
+    "lf-endings": true,
+    "log-sources": true,
+    "native-bundles": true,
+    "net-correlation": true,
+    "no-secret-leaks": true,
+    "no-unexpected-errors": true,
+    "playwright-pin": true,
+    "production-smoke": true,
+    "repo-hygiene": true,
+    "screenshots": true,
+    "secret-registered": true,
+    "ui-coverage": true,
+    "unit-tests": true,
+    "volume-persistence": true,
+    "web-build": true
+  },
+  "journal_events": {
+    "note_created": 38,
+    "note_deleted": 37,
+    "note_updated": 4,
+    "trade_created": 389,
+    "trade_deleted": 386,
+    "trade_updated": 13
+  },
+  "log_records": {
+    "client": 292,
+    "server": 3683,
+    "test": 1788
+  },
+  "phase": 4,
+  "result": "pass",
+  "tests": {
+    "by_marker": {
+      "p0": 4,
+      "p1": 63,
+      "p2": 77,
+      "p3": 103,
+      "p4": 24
+    },
+    "failed": 0,
+    "passed": 271,
+    "skipped": 0
+  },
+  "ui": {
+    "exercised": 17,
+    "operations": 17,
+    "uncovered": [],
+    "write_requests": {
+      "DELETE": 3,
+      "PATCH": 6,
+      "POST": 23
+    }
+  },
+  "unit_tests": "344 passed"
+}

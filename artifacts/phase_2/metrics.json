@@ -1,0 +1,89 @@
+{
+  "api": {
+    "exercised": 14,
+    "operations": 14,
+    "requests_by_status_class": {
+      "2xx": 1093,
+      "3xx": 1,
+      "4xx": 48
+    },
+    "uncovered": []
+  },
+  "backend": "native",
+  "database": {
+    "commits": 862,
+    "rollbacks": 0,
+    "server_restarts_survived": 1,
+    "statements": 3164,
+    "write_requests_committed": 862,
+    "writes": 1721
+  },
+  "frontend": {
+    "api_contract": "in sync",
+    "native_bundles": [
+      "android",
+      "ios"
+    ],
+    "typecheck": "pass",
+    "unit_tests": "66 passed",
+    "web_build": "pass"
+  },
+  "gates": {
+    "api-contract": true,
+    "api-coverage": true,
+    "db-transactions": true,
+    "e2e-tests": true,
+    "frontend-deps": true,
+    "frontend-rules": true,
+    "frontend-typecheck": true,
+    "frontend-unit-tests": true,
+    "lf-endings": true,
+    "log-sources": true,
+    "native-bundles": true,
+    "net-correlation": true,
+    "no-secret-leaks": true,
+    "no-unexpected-errors": true,
+    "playwright-pin": true,
+    "repo-hygiene": true,
+    "screenshots": true,
+    "ui-coverage": true,
+    "unit-tests": true,
+    "web-build": true
+  },
+  "journal_events": {
+    "note_created": 38,
+    "note_deleted": 37,
+    "note_updated": 4,
+    "trade_created": 386,
+    "trade_deleted": 384,
+    "trade_updated": 13
+  },
+  "log_records": {
+    "client": 182,
+    "server": 2891,
+    "test": 1329
+  },
+  "phase": 2,
+  "result": "pass",
+  "tests": {
+    "by_marker": {
+      "p0": 3,
+      "p1": 63,
+      "p2": 77
+    },
+    "failed": 0,
+    "passed": 143,
+    "skipped": 0
+  },
+  "ui": {
+    "exercised": 14,
+    "operations": 14,
+    "uncovered": [],
+    "write_requests": {
+      "DELETE": 3,
+      "PATCH": 6,
+      "POST": 12
+    }
+  },
+  "unit_tests": "344 passed"
+}

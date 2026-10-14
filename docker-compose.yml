@@ -1,0 +1,71 @@
+# The Trading Journal, as it runs for real: one container serving the API and the web app on 127.0.0.1:8000, with its
+# SQLite database on a named volume.
+#
+#     docker compose up -d --build --wait     # build, start, and wait until the healthcheck passes
+#     docker compose logs -f app               # JSON logs, one record per line
+#     docker compose down                      # stop it; the data stays on the volume (`down -v` deletes the data)
+#
+# Settings come from the environment or from a .env file next to this one (see .env.example). Verification does not use
+# this file alone: scripts/verify.py layers docker/compose.verify.yml on top of it, which only adds the test services and
+# the test settings. The image is the same.
+name: tradingjournal
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+    image: tradingjournal/app:${TJ_IMAGE_TAG:-local}
+    init: true
+    restart: unless-stopped
+    # One worker: a second would double-fetch the feeds and trip the news host's rate limit. Published on loopback only:
+    # there is no authentication, so nothing beyond this machine may reach it (docs/BLUEPRINT.md, P7).
+    ports:
+      - "127.0.0.1:${APP_PORT:-8000}:8000"
+    environment:
+      APP_ENV: prod
+      APP_TIMEZONE: ${APP_TIMEZONE:-UTC}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      FEEDS_MODE: ${FEEDS_MODE:-off}
+      FF_FEED_URL: ${FF_FEED_URL:-https://nfs.faireconomy.media/ff_calendar_thisweek.json}
+      FF_POLL_MINUTES: ${FF_POLL_MINUTES:-60}
+      GCAL_ICAL_URL: ${GCAL_ICAL_URL:-}
+      GCAL_POLL_MINUTES: ${GCAL_POLL_MINUTES:-30}
+      SYNC_COOLDOWN_SECONDS: ${SYNC_COOLDOWN_SECONDS:-300}
+      MAX_REQUEST_BYTES: ${MAX_REQUEST_BYTES:-1048576}
+    volumes:
+      - tj_data:/data
+    # Liveness of the API: 200 and {"status": "ok"} from /api/health. Three misses in a row mark the container unhealthy.
+    # The probe names itself (request id `healthcheck`), so a person reading the logs, and the verification's counts, can tell it
+    # from real traffic: how many probes a run sees depends on how long the container lived, not on what was tested.
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import json, urllib.request as u; r = u.urlopen(u.Request('http://127.0.0.1:8000/api/health', headers={'X-Request-ID': 'healthcheck'}), timeout=2); raise SystemExit(0 if r.status == 200 and json.load(r) == {'status': 'ok'} else 1)"
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+    # Time to stop the feed workers and close the database (which checkpoints its write-ahead log) before the kill.
+    stop_grace_period: 20s
+    # Nothing is writable but the data volume and a small scratch area, and the process has no capabilities.
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 1g
+    pids_limit: 256
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+volumes:
+  # The journal. `docker compose down` keeps it; only `down -v` or `docker volume rm` deletes it.
+  tj_data:

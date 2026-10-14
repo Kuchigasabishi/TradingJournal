@@ -1,0 +1,58 @@
+{
+  "api": {
+    "exercised": 14,
+    "operations": 14,
+    "requests_by_status_class": {
+      "2xx": 231,
+      "4xx": 45
+    },
+    "uncovered": []
+  },
+  "backend": "native",
+  "database": {
+    "commits": 154,
+    "rollbacks": 0,
+    "server_restarts_survived": 1,
+    "statements": 542,
+    "write_requests_committed": 154,
+    "writes": 291
+  },
+  "gates": {
+    "api-coverage": true,
+    "db-transactions": true,
+    "e2e-tests": true,
+    "lf-endings": true,
+    "log-sources": true,
+    "no-secret-leaks": true,
+    "no-unexpected-errors": true,
+    "playwright-pin": true,
+    "repo-hygiene": true,
+    "screenshots": true,
+    "unit-tests": true
+  },
+  "journal_events": {
+    "note_created": 5,
+    "note_deleted": 5,
+    "note_updated": 2,
+    "trade_created": 67,
+    "trade_deleted": 66,
+    "trade_updated": 9
+  },
+  "log_records": {
+    "client": 5,
+    "server": 609,
+    "test": 405
+  },
+  "phase": 1,
+  "result": "pass",
+  "tests": {
+    "by_marker": {
+      "p0": 4,
+      "p1": 63
+    },
+    "failed": 0,
+    "passed": 67,
+    "skipped": 0
+  },
+  "unit_tests": "344 passed"
+}

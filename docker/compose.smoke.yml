@@ -1,0 +1,31 @@
+# What scripts/verify.py --backend compose layers on top of docker-compose.yml for the production smoke stage: nothing but the
+# test runner. The app is exactly the production definition (APP_ENV=prod, the feeds off, the zone UTC, an empty volume);
+# the runner reaches it over the compose network and writes its own log, beside the main stage's.
+services:
+  e2e:
+    profiles: [smoke]
+    image: tradingjournal/e2e:${TJ_IMAGE_TAG:?the harness names the image it verifies}
+    # The browser shares the app container's network namespace, so it reaches the app at http://127.0.0.1:8000, the origin a
+    # person uses. Browsers treat loopback as a trustworthy origin (secure-context features, headers such as COOP) and any
+    # other host name as not; Chromium even upgrades the bare name `app`, a Google-owned TLD, to HTTPS. The app's own traffic
+    # to the feed stub still crosses the compose network.
+    network_mode: service:app
+    init: true
+    ipc: host
+    working_dir: /work/e2e
+    environment:
+      BASE_URL: http://127.0.0.1:8000
+      VERIFY_PHASE: ${VERIFY_PHASE:?the harness supplies the phase being verified}
+      E2E_LOG_FILE: /logs/e2e-smoke.jsonl
+      ARTIFACTS_DIR: /artifacts
+      E2E_NO_SANDBOX: "1"
+    volumes:
+      - type: bind
+        source: ${RUN_DIR:?the harness supplies the folder of this run's logs}
+        target: /logs
+      - type: bind
+        source: ${ARTIFACTS_DIR:?the harness supplies the artifacts folder}
+        target: /artifacts
+    depends_on:
+      app:
+        condition: service_healthy

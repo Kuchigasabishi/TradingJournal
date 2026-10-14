@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<weeklyevents>
+	<event>
+		<title>Fed’s Beige Book &amp; Outlook</title>
+		<country>USD</country>
+		<date><![CDATA[05-11-2044]]></date>
+		<time><![CDATA[6:00pm]]></time>
+		<impact><![CDATA[Medium]]></impact>
+		<forecast />
+		<previous />
+		<url><![CDATA[https://www.forexfactory.com/calendar/1-example]]></url>
+	</event>
+	<event>
+		<title><![CDATA[Riksbank Gov Thedéen Speaks]]></title>
+		<country>SEK</country>
+		<date><![CDATA[05-12-2044]]></date>
+		<time><![CDATA[9:15am]]></time>
+		<impact><![CDATA[Low]]></impact>
+		<forecast />
+		<previous />
+		<url />
+	</event>
+	<event>
+		<title>OPEC-JMMC Meetings</title>
+		<country>All</country>
+		<date><![CDATA[05-12-2044]]></date>
+		<time><![CDATA[All Day]]></time>
+		<impact><![CDATA[Non-Economic]]></impact>
+		<forecast />
+		<previous />
+		<url />
+	</event>
+	<event>
+		<title>G7 Leaders Summit</title>
+		<country>All</country>
+		<date><![CDATA[05-13-2044]]></date>
+		<time><![CDATA[Tentative]]></time>
+		<impact><![CDATA[Low]]></impact>
+		<forecast />
+		<previous />
+		<url />
+	</event>
+</weeklyevents>

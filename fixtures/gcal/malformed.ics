@@ -1,0 +1,7 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20440511T10
+UID:cut-off@fixture.example
+SUMMARY:A calendar that stops in the middle of an event

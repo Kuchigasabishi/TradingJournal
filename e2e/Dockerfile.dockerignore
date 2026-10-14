@@ -1,0 +1,6 @@
+# Build context of e2e/Dockerfile: the suite and the fixtures, nothing else.
+*
+!e2e
+!fixtures
+**/__pycache__
+**/*.pyc

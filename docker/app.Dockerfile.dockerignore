@@ -1,0 +1,16 @@
+# Build context of docker/app.Dockerfile: an allow-list, so nothing else (.env, data/, logs, tests, notes) can enter an
+# image layer. BuildKit reads this file in preference to the root .dockerignore.
+*
+!backend/app
+!backend/migrations
+!backend/alembic.ini
+!backend/log_config.json
+!backend/requirements.txt
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/app.json
+!frontend/tsconfig.json
+!frontend/assets
+!frontend/src
+**/__pycache__
+**/*.pyc
